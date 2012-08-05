@@ -46,14 +46,15 @@ script, make sure you set the right values.  For example, if you
 prefer to use port 5556, launch the server this way:
 
 ```Julia
-load("zmq_server_julia.jl")
-run_server("tcp://*:5556")
+julia> load("zmq_server_julia.jl")
+
+julia> run_server("tcp://*:5556")
 ```
 
 ## Errors
 
 Errors are typically reported back to the Matlab client. However, they
-are also mirrored on the command line of the Julia client. For that
+are also mirrored on the command line of the Julia server. For that
 reason, if you have trouble you may prefer to launch Julia by hand
 rather than letting Matlab launch it for you.
 
