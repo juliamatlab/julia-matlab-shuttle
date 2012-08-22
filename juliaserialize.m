@@ -388,3 +388,21 @@ function varargout = juliaserialize(mode, arg)
     error(['julia:' t.typename], errstr);
   end
 end
+
+function s = sizeof(name)
+  if (name(1) == '*')
+    name = name(2:end);
+  end
+  switch name
+   case {'int8','uint8'}
+    s = 1;
+   case {'int16','uint16'}
+    s = 2;
+   case {'int32','uint32','single'}
+    s = 4;
+   case {'int64','uint64','double'}
+    s = 8;
+   otherwise
+    error('Unrecognized type')
+  end
+end  
