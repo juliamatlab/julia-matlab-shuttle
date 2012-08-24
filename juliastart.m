@@ -64,7 +64,7 @@ function [socket, stopflag] = juliastart(key, port)
     url = [url(1:i) num2str(port)];
   end
   if strcmp(key, 'local')
-    cmd = ['julia -L "' s.julia_local_server_file '" -e ''run_server("' url '")'' &'];
+    cmd = ['bash --login -c "julia -L \"' s.julia_local_server_file '\" -e ''run_server(\"' url '\")''" &'];
     disp(cmd)
     [status, result] = system(cmd);
     if status ~= 0
