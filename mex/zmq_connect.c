@@ -10,6 +10,9 @@ void mexFunction(int nlhs, mxArray *plhs[],
 		 int nrhs, const mxArray *prhs[])
 {
   const mxArray *curarg;
+  int nchars, sockettype;
+  char *urlstr;
+  void *ctx, *socket, **ptr;
 
   if (nlhs != 2)
     mexErrMsgTxt("Must receive two outputs, the context and socket");
@@ -20,7 +23,7 @@ void mexFunction(int nlhs, mxArray *plhs[],
   curarg = prhs[0];
   if (!mxIsChar(curarg) || mxGetM(prhs[0]) != 1)
     mexErrMsgTxt("The first input must be the url (a string) that you want to connect to");
-  int nchars = mxGetN(curarg);
+  nchars = mxGetN(curarg);
   /*
   mexPrintf("There are %d characters in the string", nchars);
   char* urlstr = (char*) mxMalloc(nchars+1);
@@ -28,12 +31,12 @@ void mexFunction(int nlhs, mxArray *plhs[],
   if (status != 0)
     mexErrMsgTxt("Converting url to cstring failed");
   */
-  char* urlstr = mxArrayToString(curarg);
+  urlstr = mxArrayToString(curarg);
   if (urlstr == NULL)
     mexErrMsgTxt("Converting url to cstring failed");
 
   /* Determine the socket type */
-  int sockettype = ZMQ_REQ;
+  sockettype = ZMQ_REQ;
   if (nrhs > 1) {
     curarg = prhs[1];
     if (mxGetNumberOfElements(curarg) != 1 || !mxIsNumeric(curarg))
@@ -52,11 +55,11 @@ void mexFunction(int nlhs, mxArray *plhs[],
   plhs[1] = mxCreateNumericMatrix(1, 1, classid, mxREAL);
 
   /* Initialize the context */
-  void *ctx = zmq_init(1);
+  ctx = zmq_init(1);
   if (ctx == NULL)
     mexErrMsgTxt(zmq_strerror(zmq_errno()));
   /* Initialize the socket */
-  void *socket = zmq_socket(ctx, sockettype);
+  socket = zmq_socket(ctx, sockettype);
   if (socket == NULL)
     mexErrMsgTxt(zmq_strerror(zmq_errno()));
   /* Connect the socket to url */
@@ -66,7 +69,7 @@ void mexFunction(int nlhs, mxArray *plhs[],
   mxFree(urlstr);
 
   /* Package the context and socket pointers in the output */
-  void **ptr = (void**)mxGetData(plhs[0]);
+  ptr = (void**)mxGetData(plhs[0]);
   *ptr = ctx;
   ptr = (void**)mxGetData(plhs[1]);
   *ptr = socket;
