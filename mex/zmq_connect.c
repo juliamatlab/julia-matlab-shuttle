@@ -13,6 +13,7 @@ void mexFunction(int nlhs, mxArray *plhs[],
   int nchars, sockettype;
   char *urlstr;
   void *ctx, *socket, **ptr;
+  mxClassID classid;
 
   if (nlhs != 2)
     mexErrMsgTxt("Must receive two outputs, the context and socket");
@@ -45,7 +46,6 @@ void mexFunction(int nlhs, mxArray *plhs[],
   }
   
   /* Allocate the output */
-  mxClassID classid;
   if (sizeof(void*) == 4)
     classid = mxUINT32_CLASS;
   else
