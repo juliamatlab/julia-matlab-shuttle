@@ -55,6 +55,7 @@ void mexFunction(int nlhs, mxArray *plhs[],
   rc = zmq_send(socket, &msg, 0);
   if (rc != 0)
     mexErrMsgTxt(zmq_strerror(zmq_errno()));
+  zmq_msg_close(&msg);
 
   /* Receive the reply */
   zmq_msg_t msgback;
@@ -69,4 +70,5 @@ void mexFunction(int nlhs, mxArray *plhs[],
   nbytes = zmq_msg_size(&msgback);
   plhs[0] = mxCreateNumericMatrix(nbytes, 1, mxUINT8_CLASS, mxREAL);
   memcpy(mxGetData(plhs[0]), zmq_msg_data(&msgback), nbytes);
+  zmq_msg_close(&msgback);
 }
