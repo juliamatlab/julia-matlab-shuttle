@@ -7,6 +7,18 @@ environment but offering many of the performance benefits of C. The
 primary purpose of this Matlab-Julia connector is present a way to
 enhance performance in Matlab without the need for writing MEX files.
 
+## NEWS
+
+Since the author doesn't use this himself, this repository has not been maintained.
+If you're interested in getting it working, you'll need to start from
+a version of ZMQ that existed at the time this repository worked:
+https://github.com/timholy/ZMQancient.jl
+
+It's also very likely that changes in julia will require additional updates.
+
+If you're willing to put the work into it, you are free to take "ownership"
+(this is released under the MIT license).
+
 ## Installation and configuration
 
 First, you need [ZeroMQ](http://www.zeromq.org) installed on your
